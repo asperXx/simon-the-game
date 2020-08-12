@@ -4,10 +4,30 @@
       <h1>{{title}}</h1>
       <div class="simon__row">
         <div class="simon__buttons">
-          <button :class="{light: light[1]}" :disabled="!userTurn" class="btnGreen" @click="clickedBtn(1)"></button>
-          <button :class="{light: light[2]}" :disabled="!userTurn" class="btnYellow" @click="clickedBtn(2)"></button>
-          <button :class="{light: light[3]}" :disabled="!userTurn" class="btnRed" @click="clickedBtn(3)"></button>
-          <button :class="{light: light[4]}" :disabled="!userTurn" class="btnBlue" @click="clickedBtn(4)"></button>
+          <button
+            :class="{light: light[1]}"
+            :disabled="!userTurn"
+            class="btnGreen"
+            @click="clickedBtn(1)"
+          ></button>
+          <button
+            :class="{light: light[2]}"
+            :disabled="!userTurn"
+            class="btnYellow"
+            @click="clickedBtn(2)"
+          ></button>
+          <button
+            :class="{light: light[3]}"
+            :disabled="!userTurn"
+            class="btnRed"
+            @click="clickedBtn(3)"
+          ></button>
+          <button
+            :class="{light: light[4]}"
+            :disabled="!userTurn"
+            class="btnBlue"
+            @click="clickedBtn(4)"
+          ></button>
         </div>
         <div class="simon__menu">
           <h2 class="round">Round: {{round}}</h2>
@@ -33,7 +53,7 @@ export default {
     return {
       round: 0,
       startBtn: "Start",
-      title: 'Simon The Game',
+      title: "Simon The Game",
       userTurn: false,
       light: {
         1: false,
@@ -51,19 +71,26 @@ export default {
       },
     };
   },
-  computed:{
+  computed: {
     delay() {
-      if (this.lvlPicked === "Eazy") {
-        return this.levels.Eazy
-      } else if (this.lvlPicked === "Medium") {
-        return this.levels.Medium
-      } else { return this.levels.Hard}
-    }
+      let delay = "";
+      switch (this.lvlPicked) {
+        case "Eazy":
+          delay = this.levels.Eazy;
+          break;
+        case "Medium":
+          delay = this.levels.Medium;
+          break;
+        default:
+          delay = this.levels.Hard;
+      }
+      return delay;
+    },
   },
   methods: {
     start() {
       if (this.startBtn === "Start") {
-        this.startBtn = 'Stop';
+        this.startBtn = "Stop";
         this.simonTurn();
       } else {
         this.reset();
@@ -75,13 +102,13 @@ export default {
       this.sequence.push(this.randomNumber());
       this.showSequence(() => {
         this.userTurn = true;
-      })
+      });
     },
     showSequence(callback) {
       var self = this;
       var i = 0;
       timer = setInterval(function () {
-        if(i>=self.sequence.length) {
+        if (i >= self.sequence.length) {
           self.stopInterval();
         }
         self.animate(self.sequence[i]);
@@ -89,7 +116,7 @@ export default {
       }, this.delay);
       callback();
     },
-    stopInterval: function(){
+    stopInterval: function () {
       clearInterval(timer);
     },
     randomNumber() {
@@ -105,8 +132,7 @@ export default {
     },
     clickedBtn(num) {
       this.animate(num);
-      var isCorrect = this.checkSequence(num);
-      if (!isCorrect) {
+      if (!this.isSequenceCorrect(num)) {
         this.gameOver();
         return;
       } else {
@@ -116,27 +142,27 @@ export default {
             this.simonTurn();
           }, 1000);
         } else {
-        this.index++;
+          this.index++;
+        }
       }
-      } 
     },
-    checkSequence(num) {
-      return (this.sequence[this.index] === num);
+    isSequenceCorrect(num) {
+      return this.sequence[this.index] === num;
     },
     animate(num) {
       this.light[num] = true;
-      var audio = new Audio(require('./assets/sounds/' + num + '.mp3'))
+      let audio = new Audio(require("./assets/sounds/" + num + ".mp3"));
       audio.play();
       // Можно использовать self для переопределения this, но и так читаемость нормальная
       setTimeout(() => {
-            this.light[num] = false;
-          }, 500);
-          return;
+        this.light[num] = false;
+      }, 500);
+      return;
     },
     gameOver() {
-      this.title = 'Game over!'
+      this.title = "Game over!";
       this.reset();
-    }
+    },
   },
 };
 </script>
@@ -176,6 +202,9 @@ export default {
         outline: none;
         opacity: 0.6;
       }
+      button.light {
+        opacity: 1;
+      } 
     }
   }
   &__menu {
@@ -204,9 +233,7 @@ export default {
     }
   }
 }
-.light {
-  opacity: 1 !important;
-}
+
 .btnGreen {
   background-color: dodgerblue;
   border-top-left-radius: 100%;
