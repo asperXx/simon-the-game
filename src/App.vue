@@ -114,7 +114,7 @@ export default {
           setTimeout(() => {
             this.userTurn = false;
             this.simonTurn();
-          }, this.delay);
+          }, 1000);
         } else {
         this.index++;
       }
@@ -130,7 +130,7 @@ export default {
       // Можно использовать self для переопределения this, но и так читаемость нормальная
       setTimeout(() => {
             this.light[num] = false;
-          }, this.delay);
+          }, 500);
           return;
     },
     gameOver() {
