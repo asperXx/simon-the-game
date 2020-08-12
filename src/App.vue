@@ -125,7 +125,6 @@ export default {
     reset() {
       this.startBtn = "Start";
       this.sequence = [];
-      this.lvlPicked = "Eazy";
       this.userTurn = false;
       this.round = 0;
       this.index = 0;
