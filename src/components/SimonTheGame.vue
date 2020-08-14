@@ -199,6 +199,7 @@ export default {
     }
     button {
       margin-bottom: 20px;
+      padding: 5px;
     }
     ul {
       display: flex;
